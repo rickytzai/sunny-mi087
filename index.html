@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Sunny is an adaptive real-time voice companion built with AssemblyAI.">
+  <meta name="theme-color" content="#101b1c">
+  <meta property="og:title" content="Sunny — Adaptive Real-Time Voice Companion">
+  <meta property="og:description" content="A voice companion that responds to how you speak: rhythm, pauses, turn-taking, and interruptions.">
+  <meta property="og:image" content="assets/sunny-hero.jpg?v=2">
+  <title>Sunny — Adaptive Real-Time Voice Companion</title>
+  <link rel="preload" href="assets/sunny-hero.jpg?v=2" as="image">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="nav" aria-label="Primary navigation">
+    <a class="brand" href="#top" aria-label="Sunny home"><span class="brand-orb" aria-hidden="true"></span>Sunny</a>
+    <nav>
+      <a href="#how">How it works</a>
+      <a href="#barge-in">Barge-in</a>
+      <a href="#architecture">Architecture</a>
+      <a class="nav-cta" href="#film">Watch film</a>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="hero" id="top" aria-labelledby="hero-title">
+      <img class="hero-image" src="assets/sunny-hero.jpg?v=2" alt="A young Taiwanese woman and Sunny, a glowing golden companion, in a warm Taipei apartment at sunset">
+      <div class="hero-shade"></div>
+      <div class="hero-copy reveal">
+        <p class="eyebrow">MI-087 · AssemblyAI Voice Agent Hackathon</p>
+        <h1 id="hero-title">A voice companion that learns <em>how</em> you speak.</h1>
+        <p class="hero-lede">Sunny listens for more than words. It adapts to conversational rhythm, respects pauses, and yields the moment you want to speak.</p>
+        <div class="hero-actions">
+          <a class="button primary" href="#film"><span>Watch the film</span><span aria-hidden="true">↘</span></a>
+          <a class="button quiet" href="https://github.com/rickytzai/sunny-mi087">View source <span aria-hidden="true">↗</span></a>
+        </div>
+        <div class="status-row" aria-label="Verified project status">
+          <span class="status"><i></i>Human E2E verified</span>
+          <span class="status"><i></i>True barge-in verified</span>
+        </div>
+      </div>
+      <div class="scroll-cue" aria-hidden="true">Scroll to explore <span>↓</span></div>
+    </section>
+
+    <section class="intro section reveal" aria-labelledby="intro-title">
+      <p class="kicker">The idea</p>
+      <h2 id="intro-title">Conversation has a rhythm.<br>Voice agents should feel it.</h2>
+      <p>Most assistants listen for content, then rush to answer. Sunny makes pacing, pauses, preferences, and interruption handling part of the interaction itself.</p>
+    </section>
+
+    <section class="film section" id="film" aria-labelledby="film-title">
+      <div class="section-heading reveal">
+        <div><p class="kicker">Submission film</p><h2 id="film-title">Meet Sunny</h2></div>
+        <p>95 seconds · Original animated product visualization</p>
+      </div>
+      <div class="video-shell reveal">
+        <video controls preload="metadata" poster="assets/sunny-hero.jpg?v=2" playsinline>
+          <source src="assets/sunny-demo.mp4" type="video/mp4">
+          Your browser does not support embedded video. <a href="assets/sunny-demo.mp4">Download the MP4</a>.
+        </video>
+      </div>
+      <p class="disclosure reveal">The film visualizes the product experience and verified runtime flow. It is not the literal human evidence recording.</p>
+    </section>
+
+    <section class="how section" id="how" aria-labelledby="how-title">
+      <div class="section-heading reveal">
+        <div><p class="kicker">How Sunny works</p><h2 id="how-title">Speech becomes presence.</h2></div>
+        <p>AssemblyAI’s real-time speech events give Sunny a reliable signal for listening, turn-taking, and interruption control.</p>
+      </div>
+      <ol class="flow-cards">
+        <li class="reveal"><span>01</span><strong>Your voice</strong><p>Natural speech enters the live audio stream.</p></li>
+        <li class="reveal"><span>02</span><strong>AssemblyAI</strong><p>Real-time speech activity and turn events arrive as the conversation unfolds.</p></li>
+        <li class="reveal"><span>03</span><strong>Sunny</strong><p>Persona, preferences, and a deterministic fast path shape the response.</p></li>
+        <li class="reveal"><span>04</span><strong>Natural response</strong><p>Playback follows the user’s conversational rhythm.</p></li>
+      </ol>
+    </section>
+
+    <section class="rhythm section" aria-labelledby="rhythm-title">
+      <div class="rhythm-visual reveal" aria-hidden="true">
+        <div class="pulse-orb"><span></span><span></span><span></span></div>
+        <div class="wave" id="wave"></div>
+        <p>Listening to your rhythm</p>
+      </div>
+      <div class="rhythm-copy reveal">
+        <p class="kicker">Personalized rhythm</p>
+        <h2 id="rhythm-title">The space between words matters.</h2>
+        <p>Sunny carries conversational preferences into each turn: how long to wait, how quickly to answer, and when silence means “thinking” instead of “finished.”</p>
+        <div class="feature-list">
+          <span>Conversational preferences</span><span>Pause awareness</span><span>Turn-taking</span><span>Persona distillation</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="barge section" id="barge-in" aria-labelledby="barge-title">
+      <div class="section-heading reveal">
+        <div><p class="kicker">True barge-in</p><h2 id="barge-title">When you speak, Sunny yields.</h2></div>
+        <p>The interruption path is explicit and easy to understand—even with the sound off.</p>
+      </div>
+      <div class="barge-stage reveal" data-step="0">
+        <div class="barge-topline"><span>Visualized verified flow</span><button id="replay-flow" type="button">Replay flow ↻</button></div>
+        <div class="barge-grid">
+          <article class="flow-step active"><b>01</b><div><h3>SpeechStarted</h3><p>AssemblyAI detects the new human speech event.</p></div></article>
+          <article class="flow-step"><b>02</b><div><h3>Playback stop / duck</h3><p>Sunny immediately yields the audio channel.</p></div></article>
+          <article class="flow-step"><b>03</b><div><h3>New turn</h3><p>The interrupted speech becomes the priority turn.</p></div></article>
+          <article class="flow-step"><b>04</b><div><h3>Sunny response</h3><p>The conversation continues from the new intent.</p></div></article>
+        </div>
+        <div class="flow-progress"><span></span></div>
+      </div>
+    </section>
+
+    <section class="architecture section" id="architecture" aria-labelledby="architecture-title">
+      <div class="section-heading reveal">
+        <div><p class="kicker">Architecture</p><h2 id="architecture-title">Real-time at the edge of conversation.</h2></div>
+        <p>A compact orchestration layer connects speech events, fast decisions, personalization, and playback.</p>
+      </div>
+      <div class="architecture-card reveal">
+        <img src="assets/architecture.svg" alt="Architecture diagram: human voice flows through AssemblyAI real-time speech to Sunny orchestration, then through fast-path and personalization to response playback">
+      </div>
+    </section>
+
+    <section class="evidence section reveal" aria-labelledby="evidence-title">
+      <p class="kicker">Verified with a human in the loop</p>
+      <h2 id="evidence-title">Two flows. Both completed.</h2>
+      <div class="evidence-grid">
+        <article><span class="check">✓</span><div><h3>Human E2E verified</h3><p>Physical human microphone → AssemblyAI v3 speech events → Sunny → speaker</p></div></article>
+        <article><span class="check">✓</span><div><h3>True human barge-in verified</h3><p>Playback active → SpeechStarted → stop / duck → new turn → response</p></div></article>
+      </div>
+      <p class="evidence-note">These statements reflect completed project validation. Private evidence, raw audio, and transcripts are intentionally excluded from this public demo.</p>
+    </section>
+
+    <section class="closing section reveal" aria-label="Sunny closing statement">
+      <div class="closing-orb" aria-hidden="true"><span></span></div>
+      <p>Sunny responds not just to what you say —</p>
+      <h2>but how you say it.</h2>
+      <span class="built-with">Built with AssemblyAI</span>
+    </section>
+  </main>
+
+  <footer>
+    <a class="brand" href="#top"><span class="brand-orb" aria-hidden="true"></span>Sunny</a>
+    <p>MI-087 · Adaptive Real-Time Voice Companion</p>
+    <a href="https://github.com/rickytzai/sunny-mi087">GitHub ↗</a>
+  </footer>
+  <script src="app.js"></script>
+</body>
+</html>

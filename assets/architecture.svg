@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 620" role="img" aria-labelledby="title desc">
+  <title id="title">Sunny system architecture</title>
+  <desc id="desc">Human voice passes through AssemblyAI real-time speech into Sunny orchestration. Jev fast-path and persona preferences guide response and playback.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#152527"/><stop offset="1" stop-color="#0c1718"/></linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ffe297"/><stop offset="1" stop-color="#e8952e"/></linearGradient>
+    <filter id="glow"><feGaussianBlur stdDeviation="8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0l8 4-8 4z" fill="#8ee8ca"/></marker>
+    <style>.node{fill:#17282a;stroke:#ffffff26;stroke-width:2}.label{fill:#f8f2e7;font:600 24px system-ui,sans-serif}.sub{fill:#aabbb6;font:400 17px system-ui,sans-serif}.cap{fill:#8ee8ca;font:700 14px system-ui,sans-serif;letter-spacing:2px}.line{fill:none;stroke:#8ee8ca;stroke-width:3;marker-end:url(#arrow)}.aux{fill:#101d1e;stroke:#ffd26f66;stroke-width:2}</style>
+  </defs>
+  <rect width="1400" height="620" rx="28" fill="url(#bg)"/>
+  <text x="70" y="72" class="cap">REAL-TIME CONVERSATION FLOW</text>
+  <g transform="translate(70 215)"><rect class="node" width="210" height="140" rx="24"/><circle cx="48" cy="48" r="13" fill="#ffd26f"/><text x="34" y="92" class="label">Human voice</text><text x="34" y="119" class="sub">Live microphone</text></g>
+  <path class="line" d="M280 285H365"/>
+  <g transform="translate(365 195)"><rect class="node" width="290" height="180" rx="24"/><text x="34" y="59" class="cap">ASSEMBLYAI</text><text x="34" y="101" class="label">Real-time speech</text><text x="34" y="136" class="sub">SpeechStarted · Turn</text></g>
+  <path class="line" d="M655 285H745"/>
+  <g transform="translate(745 175)"><rect x="0" y="0" width="300" height="220" rx="28" fill="url(#gold)" opacity=".95"/><circle cx="55" cy="58" r="22" fill="#ffecb7" filter="url(#glow)"/><text x="34" y="116" class="label" style="fill:#20231c;font-size:32px">Sunny</text><text x="34" y="151" class="sub" style="fill:#52432d">Orchestration</text><text x="34" y="181" class="sub" style="fill:#52432d">Turn policy · persona</text></g>
+  <path class="line" d="M1045 285H1135"/>
+  <g transform="translate(1135 215)"><rect class="node" width="195" height="140" rx="24"/><text x="30" y="65" class="label">Response</text><text x="30" y="96" class="sub">Playback</text></g>
+  <g transform="translate(745 465)"><rect class="aux" width="142" height="86" rx="18"/><text x="22" y="38" class="label" style="font-size:19px">Jev fast-path</text><text x="22" y="64" class="sub" style="font-size:14px">Micro-decisions</text></g>
+  <g transform="translate(903 465)"><rect class="aux" width="230" height="86" rx="18"/><text x="22" y="38" class="label" style="font-size:19px">Persona + preferences</text><text x="22" y="64" class="sub" style="font-size:14px">Personalized rhythm</text></g>
+  <path d="M816 465V407" class="line"/><path d="M1018 465V407" class="line"/>
+</svg>
