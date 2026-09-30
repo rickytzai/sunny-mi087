@@ -1,0 +1,58 @@
+{
+  "artifact_type": "existing_source_excerpt_with_synthetic_replay",
+  "source_filename": "rhythm_adaptation.py",
+  "source_sha256": "be290c0bc070dc6400705710fa2d4647739db682ae308b05090082dc3d6bb57a",
+  "excerpt_sha256": "586c192d4b6530e950e882374ab962f8b0790e22f845db1d1bb641af42f7d862",
+  "methods_retained_unchanged": [
+    "__init__",
+    "record_user_pause",
+    "_update_avg_pause",
+    "_adapt_next_pause",
+    "get_next_pause"
+  ],
+  "source_method_ast_sha256": {
+    "__init__": "36e4a347a8850d5816e0ec6b284cd45fe9c924da368eb9b021fd47e39154a7d7",
+    "record_user_pause": "b2038f2c2b5d610f32aa5030a4e74512d6e8acbc780715b36132f45633ec451a",
+    "_update_avg_pause": "bc9f3b08294caf1c9f06a5edd26748d9916bd3d91bfcb90d1b45b2243a4cc2e9",
+    "_adapt_next_pause": "aa1139ae8d692b23dff72d8eac9ffb47ad1e9e5fc704fad325ba6d9d0015e3e4",
+    "get_next_pause": "1f1bd21c1a249691ca337f1d36ff57df08b11f5c36bfcb38edc563fa4a47a774"
+  },
+  "original_source_replay_equal": true,
+  "live_human_adaptation_verified": false,
+  "persistence_verified": false,
+  "synthetic_replay": [
+    {
+      "observation": 1,
+      "synthetic_pause_ms": 900.0,
+      "previous_next_pause_ms": 300.0,
+      "recent_pauses_ms": [
+        900.0
+      ],
+      "avg_user_pause_ms": 900.0,
+      "next_pause_ms": 360.0
+    },
+    {
+      "observation": 2,
+      "synthetic_pause_ms": 900.0,
+      "previous_next_pause_ms": 360.0,
+      "recent_pauses_ms": [
+        900.0,
+        900.0
+      ],
+      "avg_user_pause_ms": 900.0,
+      "next_pause_ms": 414.0
+    },
+    {
+      "observation": 3,
+      "synthetic_pause_ms": 100.0,
+      "previous_next_pause_ms": 414.0,
+      "recent_pauses_ms": [
+        900.0,
+        900.0,
+        100.0
+      ],
+      "avg_user_pause_ms": 633.3333333333334,
+      "next_pause_ms": 435.93333333333334
+    }
+  ]
+}

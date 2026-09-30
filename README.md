@@ -1,127 +1,74 @@
 # Sunny — Adaptive Conversation Layer for Voice Agents
 
-**AssemblyAI understands when you speak. Sunny learns how you prefer to converse.**
+**AssemblyAI supplies live speech and turn signals. Sunny handles the response and yields playback when a human interrupts.** A separate existing offline rhythm prototype updates a bounded response-pause policy. Human voice validation and offline adaptation are distinct evidence tracks.
 
-Sunny is an adaptive voice companion created as **MI-087** for the **AssemblyAI Voice Agent Hackathon**. AssemblyAI supplies real-time speech and turn events. Sunny applies a bounded conversation policy for pause tolerance, interruption behavior, response pacing, and turn-taking.
+## For Judges — verify Sunny in 60 seconds
 
-[View the live demo](https://rickytzai.github.io/sunny-mi087/) · [Watch the final submission film](https://rickytzai.github.io/sunny-mi087/assets/sunny-demo-v4.mp4)
+1. **Who does what:** [AssemblyAI vs Sunny](docs/architecture.md). AssemblyAI supplies speech/turn events; Sunny routes accepted turns and controls playback.
+2. **Human E2E:** [redacted completion record](evidence/human-e2e-redacted.json), session `20260928_184302`: physical mic → AssemblyAI → Sunny → speaker.
+3. **True barge-in:** [recorded event timeline](docs/human-validation.md), session `20260928_184855`: SpeechStarted → PlaybackStop trigger → TurnFinal → new response. Real relative timestamps; no acoustic-latency claim.
+4. **What learns:** [source-backed offline proof](docs/learning-proof.md), [executable existing code excerpt](proof/rhythm_excerpt.py), [provenance and replay](evidence/learning-source-proof.json). Synthetic 900 ms observations change the next-pause policy **300 → 360 → 414 ms**. These are policy values, not performance metrics. Not integrated into the human-validation path.
+5. **Run actual public tests:** clone this repo, then run `python -m unittest discover -s tests -v` (Python 3.9+, standard library only). Tests execute the numerical excerpt and check provenance, state changes, bounds and recorded-event ordering; legacy fixtures remain labeled synthetic.
+6. **Watch:** [final 95-second film](https://rickytzai.github.io/sunny-mi087/assets/sunny-demo-v5.mp4) — **01:05–01:20 contains sanitized real-microphone event proof**. [Live demo page](https://rickytzai.github.io/sunny-mi087/) · [LabLab submission](https://lablab.ai/ai-hackathons/assemblyai-voice-agent-hackathon/sunny-voice-agent/sunny-adaptive-real-time-voice-companion).
 
-![Sunny in a warm apartment at sunset](assets/sunny-hero.jpg)
+## Problem and solution
 
-> The film is a scripted product visualization with synthesized dialogue. It is not the human evidence recording and contains no raw human audio or transcript.
+Voice conversations need clear turn boundaries and reliable interruption handling. Sunny uses AssemblyAI speech events to route the accepted human turn and stop active playback on new speech. The existing offline rhythm experiment explores a bounded next-response pause policy using a rolling mean and smoothing.
 
-## The 20-second technical read
-
-| AssemblyAI provides | Sunny Adaptive Layer provides |
-| --- | --- |
-| `SpeechStarted` | User-specific pause preference |
-| Turn events | Response timing preference |
-| Real-time speech/timing signals | Interruption and turn-taking preference |
-| The signal that new human speech has begun | Playback-yield policy and deterministic fast-path routing |
-
-AssemblyAI detects speech activity and turn boundaries. Sunny uses those events to decide when to keep listening, when to yield playback, and how to pace the next response. Sunny does **not** infer identity, personality, emotion, mental state, or psychological traits.
-
-## Problem
-
-Voice assistants often optimize for answering quickly while missing the rhythm of a real conversation. They may speak through a thinking pause, make interruptions awkward, or apply the same timing policy to every person.
-
-## Solution
-
-Sunny carries a small, bounded set of conversational preferences across turns:
-
-- pause tolerance;
-- interruption behavior;
-- response pacing;
-- conversational turn-taking preference.
-
-A deterministic fast path handles small, time-sensitive decisions. The public repository documents the policy boundary without exposing production credentials, private configuration, human recordings, or transcripts.
+This submission provides functional human voice validation plus reproducible numerical adaptation evidence. It does not claim the live human flow already learns preferences, speech emotion, identity or personality.
 
 ## Architecture
 
-~~~mermaid
+```mermaid
 flowchart LR
-    A[Human voice] --> B[AssemblyAI real-time speech]
-    B --> C[SpeechStarted + turn events]
-    C --> D[Sunny Adaptive Layer]
-    P[Bounded conversation preferences] --> D
-    D --> E[Deterministic fast path]
-    D --> F[Response path]
-    E --> G[Playback control]
-    F --> G
-    G --> H[Speaker]
-~~~
+  H[Human microphone] --> A[AssemblyAI speech and turn events]
+  A --> S[Sunny turn and response handling]
+  A --> B[SpeechStarted interruption handler]
+  S --> P[Speaker playback]
+  B --> P
+  O[Synthetic pause observations] --> R[Separate offline RhythmAdapter]
+  R --> N[Updated next-response pause policy]
+```
 
-The responsibility boundary and event flow are documented in [docs/architecture.md](docs/architecture.md). The preference schema and explicit non-goals are in [docs/adaptation-policy.md](docs/adaptation-policy.md).
+The offline component is intentionally drawn separately: its integration into the live microphone harness is not verified. See [architecture](docs/architecture.md) and [learning proof](docs/learning-proof.md).
 
-## True barge-in
+## True human barge-in
 
-When new human speech begins while playback is active, the documented control flow is:
+`Playback active → AssemblyAI SpeechStarted → Sunny PlaybackStop trigger → TurnFinal / new turn → Sunny response`
 
-~~~text
-AssemblyAI SpeechStarted
-  → Sunny stop/duck playback
-  → AssemblyAI new turn
-  → Sunny response to the new turn
-~~~
-
-The sequence was functionally verified with a human in the loop. No public latency claim is made. See the sanitized [barge-in evidence summary](evidence/barge-in-redacted.json) and [public event example](examples/assemblyai_events.json).
+The inspected handler stops playback when a provider event arrives while playback is active. The published [relative event timeline](evidence/human-validation-timeline.json) retains event ordering from the existing human session. Equal event timestamps do not establish zero physical latency.
 
 ## Evidence status
 
-| Claim | Status | Public evidence | Metric boundary |
-| --- | --- | --- | --- |
-| Physical human microphone → AssemblyAI events → Sunny → speaker | **VERIFIED FUNCTIONAL** | Evidence ID `20260928_184302`; [redacted summary](evidence/human-e2e-redacted.json) | No latency or accuracy metric published |
-| Playback active → `SpeechStarted` → stop/duck → new turn → response | **VERIFIED FUNCTIONAL** | Evidence ID `20260928_184855`; [redacted summary](evidence/barge-in-redacted.json) | No stop-latency metric published |
-| Public event ordering and policy-contract fixtures | **VERIFIED SYNTHETIC** | `python -m unittest discover -s tests -v` | Tests documentation fixtures, not the production backend |
-| Baseline vs. Sunny benchmark | **NOT YET BENCHMARKED** | None | No comparison numbers claimed |
+| Claim | Supported scope | Evidence |
+| --- | --- | --- |
+| Human microphone E2E | Verified functional, existing physical-device session | [E2E summary](evidence/human-e2e-redacted.json) |
+| True human barge-in | Verified functional, recorded event ordering | [timeline and caveats](docs/human-validation.md) |
+| State update changes later pause policy | Verified existing offline numerical implementation, synthetic replay | [source proof](docs/learning-proof.md) |
+| Live automatic learning / persisted personalization | NOT_ENOUGH_EVIDENCE | Not claimed |
+| JEF feedback loop | OMITTED_NOT_SUPPORTED | Existing Jev router is not JEF |
+| Relationship-aware preference distillation | OMITTED_NOT_SUPPORTED | Future work; not a submission capability |
+| Baseline comparison / latency / preference accuracy | NOT YET BENCHMARKED | No comparative metrics claimed |
 
-The verification states above come from completed project validation supplied for this submission. This public snapshot does not independently reproduce the private human session. The full claim-by-claim boundary is in [docs/evidence-status.md](docs/evidence-status.md).
+The private runtime includes exploratory modules outside this submission's public scope. We publish only the reviewed numerical excerpt, not broad persona or mood profiles. See the [audit limits](docs/learning-proof.md#reviewer-terminology-audit).
 
-## Public technical evidence
+## Setup and run
 
-~~~text
-docs/
-  architecture.md          Responsibility boundary and runtime flow
-  adaptation-policy.md     Bounded preferences and explicit non-goals
-  evidence-status.md       Verified, synthetic, and unbenchmarked claims
-evidence/
-  human-e2e-redacted.json  Sanitized functional verification summary
-  barge-in-redacted.json   Sanitized barge-in verification summary
-examples/
-  assemblyai_events.json   Illustrative, non-recorded event sequence
-  turn_policy_cases.json   Public policy-contract examples
-tests/
-  test_public_contract.py  Fixture, ordering, and privacy checks
-~~~
-
-The example events and policy cases are explicitly synthetic documentation fixtures. They contain no captured audio, transcript text, user identifiers, or production telemetry.
-
-## Run and verify locally
-
-The demo is a dependency-free static site:
-
-~~~bash
-python -m http.server 8000
-~~~
-
-Then open `http://localhost:8000`. No API key is needed because the public page does not run the production backend in the browser.
-
-Run the public contract checks with Python 3.9 or later:
-
-~~~bash
+```bash
+git clone https://github.com/rickytzai/sunny-mi087.git
+cd sunny-mi087
 python -m unittest discover -s tests -v
-~~~
+python -m http.server 8000
+```
 
-## Proven and next
+Open `http://localhost:8000`. The website is static and needs no API key. The public repo does not run the production microphone backend in a browser.
 
-**Proven for this submission:** human microphone E2E, true human barge-in, bounded personalized turn policy, and deterministic fast-path routing.
+## Film and privacy
 
-**Future product direction:** package the adaptive conversation layer as an SDK/API for voice-agent teams, with potential pricing by conversation minute. This is a direction, not a currently deployed commercial service.
+The final film combines a scripted animated product visualization with a clearly labeled sanitized event-proof segment. Character dialogue is synthesized; the animated woman is not the human tester. No tester audio, captured waveform, transcript or voice conversion is included.
 
-Potential application areas include customer support, accessibility, coaching, interview/intake, and long-form conversational agents.
+The public repo excludes secrets, environment files, raw human audio, plaintext human transcripts, private paths, operational/shared-state data and private archives. Identity, personality, voiceprint and emotion inference are outside the published numerical proof. [Privacy](PRIVACY.md) · [Evidence boundaries](docs/evidence-status.md).
 
-## Privacy and claim boundary
+## Future work
 
-This repository contains no API keys, credentials, environment files, raw human audio, plaintext human transcripts, private evidence archives, mailbox/shared-state data, or machine-specific paths. See [PRIVACY.md](PRIVACY.md).
-
-Sunny learns bounded conversational preferences—**how you prefer to converse, not who you are**. This repository makes no claim of emotion recognition, identity inference, personality inference, prosody analysis, benchmark superiority, measured latency, production availability, or browser-hosted backend functionality.
+Live wiring of the offline rhythm policy, persisted bounded preferences, relationship-aware preference distillation and a packaged SDK/API are future work. They are not represented as completed features.

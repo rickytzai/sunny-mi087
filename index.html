@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="AssemblyAI understands when you speak. Sunny learns how you prefer to converse.">
+  <meta name="description" content="AssemblyAI understands when you speak. Sunny handles your turn; its offline prototype adapts the next pause.">
   <meta name="theme-color" content="#101b1c">
   <meta property="og:title" content="Sunny — Adaptive Real-Time Voice Companion">
-  <meta property="og:description" content="An adaptive conversation layer for pauses, pacing, turn-taking, and interruptions.">
+  <meta property="og:description" content="Verified human voice and barge-in flow, plus a separate source-tested offline pause policy.">
   <meta property="og:image" content="assets/sunny-hero.jpg?v=2">
   <title>Sunny — Adaptive Real-Time Voice Companion</title>
   <link rel="preload" href="assets/sunny-hero.jpg?v=2" as="image">
@@ -31,8 +31,8 @@
       <div class="hero-shade"></div>
       <div class="hero-copy reveal">
         <p class="eyebrow">MI-087 · AssemblyAI Voice Agent Hackathon</p>
-        <h1 id="hero-title">Sunny learns how you prefer to <em>converse.</em></h1>
-        <p class="hero-lede">AssemblyAI understands when you speak. Sunny applies bounded preferences for pauses, pacing, turn-taking, and interruptions.</p>
+        <h1 id="hero-title">A conversation that gives you <em>the floor.</em></h1>
+        <p class="hero-lede">AssemblyAI understands when you speak. Sunny handles turns and interruptions. Its separate offline rhythm prototype updates a bounded next-response pause policy.</p>
         <div class="hero-actions">
           <a class="button primary" href="#film"><span>Watch the film</span><span aria-hidden="true">↘</span></a>
           <a class="button quiet" href="https://github.com/rickytzai/sunny-mi087">View source <span aria-hidden="true">↗</span></a>
@@ -48,33 +48,33 @@
     <section class="intro section reveal" aria-labelledby="intro-title">
       <p class="kicker">The distinction</p>
       <h2 id="intro-title">Speech intelligence, then adaptive conversation.</h2>
-      <p>AssemblyAI supplies real-time speech and turn events. Sunny uses those events to apply a bounded conversation policy—without inferring identity, personality, emotion, or psychological traits.</p>
+      <p>AssemblyAI supplies real-time speech and turn events. Sunny uses those events to handle responses and yield playback. The numerical learning proof is an offline component, separate from the human-tested voice path.</p>
     </section>
 
     <section class="film section" id="film" aria-labelledby="film-title">
       <div class="section-heading reveal">
         <div><p class="kicker">Submission film</p><h2 id="film-title">Meet Sunny</h2></div>
-        <p>95 seconds · Original animated product visualization</p>
+        <p>95 seconds · Product visualization + sanitized human event proof</p>
       </div>
       <div class="video-shell reveal">
         <video controls preload="metadata" poster="assets/sunny-hero.jpg?v=2" playsinline>
-          <source src="assets/sunny-demo-v4.mp4" type="video/mp4">
-          Your browser does not support embedded video. <a href="assets/sunny-demo-v4.mp4">Download the MP4</a>.
+          <source src="assets/sunny-demo-v5.mp4" type="video/mp4">
+          Your browser does not support embedded video. <a href="assets/sunny-demo-v5.mp4">Download the MP4</a>.
         </video>
       </div>
-      <p class="disclosure reveal">The film visualizes the product experience and verified runtime flow. It is not the literal human evidence recording. “How you say it” refers only to pauses, pacing, interruptions, and turn-taking—not prosody or emotion inference.</p>
+      <p class="disclosure reveal">01:05–01:20: Real microphone test — sanitized event proof with recorded relative timestamps. No raw tester audio or transcript; the animated woman is not the human tester. Other scenes use synthesized dialogue. Offline pause adaptation is tested separately, not verified in the live human path.</p>
     </section>
 
     <section class="how section" id="how" aria-labelledby="how-title">
       <div class="section-heading reveal">
         <div><p class="kicker">How Sunny works</p><h2 id="how-title">Speech becomes presence.</h2></div>
-        <p>AssemblyAI produces speech and turn signals. Sunny decides when to keep listening, yield playback, and pace the next response.</p>
+        <p>AssemblyAI produces speech and turn signals. Sunny handles the accepted turn and yields playback on new speech.</p>
       </div>
       <ol class="flow-cards">
         <li class="reveal"><span>01</span><strong>Your voice</strong><p>Natural speech enters the live audio stream.</p></li>
         <li class="reveal"><span>02</span><strong>AssemblyAI</strong><p>Real-time SpeechStarted and turn events arrive as the conversation unfolds.</p></li>
-        <li class="reveal"><span>03</span><strong>Sunny Adaptive Layer</strong><p>Bounded preferences and a deterministic fast path select the turn action.</p></li>
-        <li class="reveal"><span>04</span><strong>Playback</strong><p>The response follows the selected pause, pacing, and interruption policy.</p></li>
+        <li class="reveal"><span>03</span><strong>Sunny Adaptive Layer</strong><p>Accepted turns feed Sunny; SpeechStarted during playback triggers the interruption handler.</p></li>
+        <li class="reveal"><span>04</span><strong>Playback</strong><p>The accepted new turn produces a response after playback yields.</p></li>
       </ol>
     </section>
 
@@ -85,11 +85,11 @@
         <p>Listening to your rhythm</p>
       </div>
       <div class="rhythm-copy reveal">
-        <p class="kicker">Personalized rhythm</p>
+        <p class="kicker">Offline state-update proof</p>
         <h2 id="rhythm-title">The space between words matters.</h2>
-        <p>Sunny carries bounded conversational preferences into each turn: pause tolerance, response pacing, interruption behavior, and when to yield the floor.</p>
+        <p>The existing offline rhythm prototype updates a rolling pause average and the next-response wait policy. Synthetic 900 ms observations change that policy from 300 to 360 to 414 ms. These are computed policy values, not measured latency; live learning is not verified.</p>
         <div class="feature-list">
-          <span>Pause tolerance</span><span>Response pacing</span><span>Interruption preference</span><span>Turn-taking</span>
+          <span>Numerical observations</span><span>Rolling mean</span><span>Bounded update</span><span>Executable tests</span>
         </div>
       </div>
     </section>
@@ -114,10 +114,10 @@
     <section class="architecture section" id="architecture" aria-labelledby="architecture-title">
       <div class="section-heading reveal">
         <div><p class="kicker">Architecture</p><h2 id="architecture-title">Clear roles. One conversation flow.</h2></div>
-        <p>AssemblyAI supplies real-time speech intelligence. Sunny adds bounded preferences, fast-path decisions, and playback control.</p>
+        <p>AssemblyAI supplies real-time speech intelligence. Sunny handles responses and playback control. Offline rhythm adaptation is a separate evidence track.</p>
       </div>
       <div class="architecture-card reveal">
-        <img src="assets/architecture.svg" alt="Architecture diagram: human voice flows through AssemblyAI real-time speech to the Sunny Adaptive Layer, then through a deterministic fast path and bounded preferences to playback">
+        <img src="assets/architecture-v2.svg" alt="AssemblyAI live speech events feed Sunny response and playback control; offline pause adaptation is separately tested">
       </div>
     </section>
 
@@ -130,17 +130,17 @@
       </div>
       <div class="evidence-matrix" aria-label="Public evidence status">
         <div><strong>Verified functional</strong><span>Human microphone E2E · True human barge-in</span></div>
-        <div><strong>Verified synthetic</strong><span>Public event-ordering and policy-contract fixtures</span></div>
+        <div><strong>Verified synthetic</strong><span>Existing offline pause-policy source replay + synthetic contract fixtures</span></div>
         <div><strong>Not yet benchmarked</strong><span>Stop latency · Baseline comparison · Pause-performance metrics</span></div>
       </div>
-      <p class="evidence-note">These statements reflect completed project validation. Private evidence, raw audio, and transcripts are intentionally excluded. No benchmark or latency number is claimed.</p>
-      <p class="evidence-links"><a href="https://github.com/rickytzai/sunny-mi087/tree/main/evidence">Redacted evidence ↗</a><a href="https://github.com/rickytzai/sunny-mi087/blob/main/docs/evidence-status.md">Claim-by-claim status ↗</a><a href="https://github.com/rickytzai/sunny-mi087/tree/main/tests">Public contract tests ↗</a></p>
+      <p class="evidence-note">Human evidence is recorded functional validation. Offline learning is separately reproducible from existing source; live automatic learning is not verified. Event timestamps are not acoustic latency measurements. Identity, personality and emotion inference are out of scope for this proof.</p>
+      <p class="evidence-links"><a href="https://github.com/rickytzai/sunny-mi087/tree/main/evidence">Redacted evidence ↗</a><a href="https://github.com/rickytzai/sunny-mi087/blob/main/docs/evidence-status.md">Claim-by-claim status ↗</a><a href="https://github.com/rickytzai/sunny-mi087/blob/main/docs/learning-proof.md">Executable learning proof ↗</a><a href="https://github.com/rickytzai/sunny-mi087#for-judges--verify-sunny-in-60-seconds">For Judges — verify Sunny in 60 seconds ↗</a></p>
     </section>
 
     <section class="closing section reveal" aria-label="Sunny closing statement">
       <div class="closing-orb" aria-hidden="true"><span></span></div>
       <p>AssemblyAI understands when you speak.</p>
-      <h2>Sunny learns how you prefer to converse.</h2>
+      <h2>Sunny handles your turn; its offline prototype adapts the next pause.</h2>
       <span class="built-with">Built with AssemblyAI</span>
     </section>
   </main>

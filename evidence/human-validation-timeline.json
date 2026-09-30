@@ -1,0 +1,45 @@
+{
+  "artifact_type": "sanitized_recorded_event_timing",
+  "evidence_id": "20260928_184855",
+  "source_filename": "bargein_timestamps_20260928_184855.json",
+  "source_sha256": "91d725cefa122d6b7090c1b50868dabcd45731b6853ddec028a05b35b8924ad0",
+  "time_origin": "playback_start = 0; absolute clock removed",
+  "events": [
+    {
+      "event": "playback_start",
+      "relative_seconds": 0.0
+    },
+    {
+      "event": "speechstarted_detected",
+      "relative_seconds": 10.345
+    },
+    {
+      "event": "tts_stop_triggered",
+      "relative_seconds": 10.345
+    },
+    {
+      "event": "new_turn_final",
+      "relative_seconds": 12.351398
+    },
+    {
+      "event": "new_response_playback_start",
+      "relative_seconds": 14.74495
+    }
+  ],
+  "caveats": [
+    "Single recorded validation session, not a benchmark.",
+    "SpeechStarted and stop-trigger have the same stored timestamp; this does not measure acoustic stop latency or prove zero latency.",
+    "Human interrupt onset was not recorded.",
+    "Times denote harness events; no raw audio, waveform or transcript is published."
+  ],
+  "human_e2e_record": {
+    "marker": "LIVE_EVIDENCE_EXISTS",
+    "timestamp": "20260928_184302",
+    "mode": "live_mic"
+  },
+  "barge_in_record": {
+    "marker": "LIVE_BARGE_IN_EVIDENCE_EXISTS",
+    "timestamp": "20260928_184855",
+    "mode": "barge_in"
+  }
+}

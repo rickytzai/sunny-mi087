@@ -1,38 +1,23 @@
 # Architecture and responsibility boundary
 
-Sunny is an adaptive conversation layer built on real-time speech events from AssemblyAI. The separation below is the central technical claim of this public snapshot.
-
-| Component | Responsibility | Does not claim |
+| Component | Actual inspected role | Evidence boundary |
 | --- | --- | --- |
-| AssemblyAI real-time speech | Produce speech activity and turn events such as `SpeechStarted` and turn completion | Sunny-specific personalization or playback policy |
-| Sunny event adapter | Normalize provider events for the conversation controller | Speech recognition model ownership |
-| Sunny Adaptive Layer | Apply bounded pause, interruption, pacing, and turn-taking preferences | Identity, personality, emotion, or psychological inference |
-| Deterministic fast path | Make small event-driven control decisions, including yielding playback on new speech | General reasoning or new user-facing features |
-| Response path | Continue from the accepted human turn with the current bounded preferences | A public browser-hosted production service |
-| Playback controller | Start, stop, or duck audio according to the selected turn action | A published latency guarantee |
+| AssemblyAI | Real-time speech activity and turn events | Speech recognition/turn signals belong to the provider |
+| Sunny core | Handle accepted text turns and produce a response | Human E2E records show the mic-to-speaker path |
+| Provider-event barge-in handler | On SpeechStarted while playback is active, trigger stop before the new completed turn and response | Existing human session; no acoustic-latency guarantee |
+| Offline RhythmAdapter | Update numerical rolling pause state and next-response delay | Executable source excerpt and synthetic replay; not wired into the live harness |
+| JevFastPath prototype | Rule-based intent routing with fallback | Separate prototype, not the reviewer-proposed JEF feedback loop |
 
-## Event flow
+## Verified live sequence
 
-~~~mermaid
-sequenceDiagram
-    participant H as Human
-    participant A as AssemblyAI
-    participant S as Sunny Adaptive Layer
-    participant P as Playback
+`Physical microphone → AssemblyAI speech/turn events → Sunny core → speaker`
 
-    H->>A: Live microphone speech
-    A->>S: SpeechStarted / turn events
-    S->>S: Apply bounded turn policy
-    S->>P: Play response
-    H->>A: New speech during playback
-    A->>S: SpeechStarted
-    S->>P: Stop or duck
-    A->>S: New completed turn
-    S->>P: Respond to new turn
-~~~
+`SpeechStarted during playback → stop trigger → TurnFinal / new turn → response playback`
 
-The sequence describes responsibility and ordering. It is not a latency chart. The repository does not publish a `SpeechStarted`-to-stop duration because the available public-safe evidence does not support that measurement.
+The [recorded relative timeline](human-validation.md) represents one existing session, not benchmark measurements. The static public website is a visualization, not an online voice backend.
 
-## Public snapshot limits
+## Separate offline adaptation
 
-This repository is a sanitized review surface rather than the private runtime repository. It includes the architecture boundary, redacted verification summaries, synthetic event examples, and contract tests. It excludes credentials, provider configuration, raw recordings, transcripts, production logs, private evidence archives, and operational infrastructure.
+`Numerical pause observation → rolling mean → smoothed bounded next_pause_ms → next simulated response delay`
+
+See [learning proof](learning-proof.md) for unchanged source methods, deterministic tests, and integration gaps. We do not assert that provider events already drive this learner in the human-tested runtime. JEF and relationship-aware distillation are not included in the submission flow.

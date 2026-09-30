@@ -18,7 +18,6 @@
     "turn_events"
   ],
   "sunny_role": [
-    "bounded_turn_policy",
     "response_orchestration",
     "playback_control"
   ],
@@ -30,5 +29,5 @@
     "private_paths",
     "production_logs"
   ],
-  "caveat": "This summary records functional completion. It does not publish latency, accuracy, benchmark, or availability metrics and does not independently reproduce the private session."
+  "caveat": "This summary records functional completion. It does not verify live learning or the separate offline RhythmAdapter. It does not publish latency, accuracy, benchmark, or availability metrics and does not independently reproduce the private session."
 }

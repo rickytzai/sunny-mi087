@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 420" role="img" aria-label="Verified live voice path and separate offline rhythm prototype">
+<rect width="1100" height="420" rx="24" fill="#122628"/>
+<g font-family="Arial,sans-serif" text-anchor="middle">
+<text x="550" y="45" fill="#f1d793" font-size="22">VERIFIED LIVE VOICE PATH</text>
+<g fill="#203c3d" stroke="#74d8c3"><rect x="35" y="80" width="210" height="100" rx="12"/><rect x="310" y="80" width="210" height="100" rx="12"/><rect x="585" y="80" width="210" height="100" rx="12"/><rect x="860" y="80" width="210" height="100" rx="12"/></g>
+<g fill="#ffffff" font-size="21"><text x="140" y="119">Human microphone</text><text x="415" y="119">AssemblyAI</text><text x="690" y="119">Sunny</text><text x="965" y="119">Playback</text></g>
+<g fill="#b8d3ce" font-size="16"><text x="140" y="151">Live speech</text><text x="415" y="151">SpeechStarted / Turn</text><text x="690" y="151">Response + stop control</text><text x="965" y="151">Yield on interruption</text></g>
+<g fill="#74d8c3" font-size="30"><text x="278" y="139">→</text><text x="553" y="139">→</text><text x="828" y="139">→</text></g>
+<path d="M35 215 H1065" stroke="#47716c" stroke-dasharray="7 7"/>
+<text x="550" y="257" fill="#f1d793" font-size="22">SEPARATE OFFLINE SOURCE PROOF</text>
+<text x="550" y="310" fill="#fff" font-size="23">Pause observations → rolling mean → bounded next_pause_ms</text>
+<text x="550" y="359" fill="#b8d3ce" font-size="18">Synthetic replay; no verified live learner integration or persistence</text>
+</g></svg>

@@ -1,47 +1,11 @@
-# Bounded adaptation policy
+# Bounded pause policy
 
-Sunny personalizes turn-taking behavior through a deliberately narrow preference model. It learns **how a person prefers to converse, not who that person is**.
+The supported adaptive mechanism is the existing **offline** `RhythmAdapter`, not an automatically learning live backend. See [executable proof and limits](learning-proof.md).
 
-## Allowed preference categories
+It keeps the last ten numerical pause observations, recomputes their mean, and smooths the next-pause policy toward that mean. The default update rate is 0.1 and the output is clamped to 50–2000 ms. These are configuration/policy values, not measured system latency.
 
-| Category | What it controls | Example symbolic values |
-| --- | --- | --- |
-| Pause tolerance | Whether a possible thinking pause should remain open longer | `brief`, `standard`, `extended` |
-| Interruption behavior | How playback yields when new speech begins | `stop_on_speech`, `duck_on_speech` |
-| Response pacing | Relative delivery cadence selected for a response | `compact`, `balanced`, `deliberate` |
-| Turn-taking preference | How readily Sunny claims or yields the floor | `responsive`, `balanced`, `patient` |
+The original simulation consumes the updated value before the next response. Human E2E/barge-in verification does not validate that integration. There is no verified cross-session persistence; learned end-of-turn patterns are a stub.
 
-The values above are public contract labels. They do not expose private thresholds or imply that a specific duration has been benchmarked.
+The symbolic pause, pacing, interruption and turn-taking labels in `examples/turn_policy_cases.json` are legacy synthetic design fixtures. They do not implement learning or prove production equivalence.
 
-## Policy inputs and outputs
-
-Inputs are limited to real-time speech/turn events, current playback state, and the bounded preferences above. Outputs are control decisions such as:
-
-- keep listening;
-- accept the completed turn;
-- stop or duck playback;
-- select a response pacing class;
-- use the deterministic fast path for an event-driven micro-decision.
-
-## Explicit non-goals
-
-Sunny does not infer or store:
-
-- identity or demographic attributes;
-- personality type;
-- emotion, mood, or mental state;
-- psychological traits;
-- a diagnosis or risk score;
-- biometric voice identity;
-- an interpretation of prosody as emotion.
-
-Content generation may use the accepted turn, but the adaptive layer documented here concerns conversation mechanics: pauses, pacing, interruptions, and turn-taking.
-
-## Illustrative policy trace
-
-The public fixture in [`examples/turn_policy_cases.json`](../examples/turn_policy_cases.json) shows two symbolic cases:
-
-1. A possible pause with `extended` pause tolerance remains in listening state.
-2. A `SpeechStarted` event while playback is active produces a stop/duck action before any response to the new turn.
-
-These cases document the contract and are synthetic. They are not captured production telemetry and do not establish latency or comparative performance.
+Only numerical pause state is public. No identity, personality, emotion, voiceprint or psychological inference is included. Relationship-aware preference distillation and JEF feedback-loop claims are omitted.
