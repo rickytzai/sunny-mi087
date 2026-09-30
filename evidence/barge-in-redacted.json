@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0",
+  "artifact_type": "sanitized_public_evidence_summary",
+  "claim": "True human barge-in flow completed",
+  "verification_status": "VERIFIED_FUNCTIONAL",
+  "evidence_id": "20260928_184855",
+  "project_local_timestamp": "2026-09-28 18:48:55",
+  "timezone": "not published",
+  "source_of_status": "project verification record supplied for the submission",
+  "verified_flow": [
+    "playback_active",
+    "assemblyai_speech_started",
+    "sunny_stop_or_duck_playback",
+    "assemblyai_new_human_turn",
+    "sunny_response_to_new_turn"
+  ],
+  "ordering_assertion": "Playback yield occurred after SpeechStarted and before the response to the new human turn.",
+  "published_measurements": [],
+  "redactions": [
+    "raw_human_audio",
+    "plaintext_transcript",
+    "credentials",
+    "private_paths",
+    "production_logs"
+  ],
+  "caveat": "This summary records functional event ordering. It does not publish SpeechStarted-to-stop latency, percentile distributions, or a baseline comparison."
+}

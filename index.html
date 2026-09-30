@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Sunny is an adaptive real-time voice companion built with AssemblyAI.">
+  <meta name="description" content="AssemblyAI understands when you speak. Sunny learns how you prefer to converse.">
   <meta name="theme-color" content="#101b1c">
   <meta property="og:title" content="Sunny — Adaptive Real-Time Voice Companion">
-  <meta property="og:description" content="A voice companion that responds to how you speak: rhythm, pauses, turn-taking, and interruptions.">
+  <meta property="og:description" content="An adaptive conversation layer for pauses, pacing, turn-taking, and interruptions.">
   <meta property="og:image" content="assets/sunny-hero.jpg?v=2">
   <title>Sunny — Adaptive Real-Time Voice Companion</title>
   <link rel="preload" href="assets/sunny-hero.jpg?v=2" as="image">
@@ -20,6 +20,7 @@
       <a href="#how">How it works</a>
       <a href="#barge-in">Barge-in</a>
       <a href="#architecture">Architecture</a>
+      <a href="#evidence">Evidence</a>
       <a class="nav-cta" href="#film">Watch film</a>
     </nav>
   </header>
@@ -30,8 +31,8 @@
       <div class="hero-shade"></div>
       <div class="hero-copy reveal">
         <p class="eyebrow">MI-087 · AssemblyAI Voice Agent Hackathon</p>
-        <h1 id="hero-title">A voice companion that learns <em>how</em> you speak.</h1>
-        <p class="hero-lede">Sunny listens for more than words. It adapts to conversational rhythm, respects pauses, and yields the moment you want to speak.</p>
+        <h1 id="hero-title">Sunny learns how you prefer to <em>converse.</em></h1>
+        <p class="hero-lede">AssemblyAI understands when you speak. Sunny applies bounded preferences for pauses, pacing, turn-taking, and interruptions.</p>
         <div class="hero-actions">
           <a class="button primary" href="#film"><span>Watch the film</span><span aria-hidden="true">↘</span></a>
           <a class="button quiet" href="https://github.com/rickytzai/sunny-mi087">View source <span aria-hidden="true">↗</span></a>
@@ -45,9 +46,9 @@
     </section>
 
     <section class="intro section reveal" aria-labelledby="intro-title">
-      <p class="kicker">The idea</p>
-      <h2 id="intro-title">Conversation has a rhythm.<br>Voice agents should feel it.</h2>
-      <p>Most assistants listen for content, then rush to answer. Sunny makes pacing, pauses, preferences, and interruption handling part of the interaction itself.</p>
+      <p class="kicker">The distinction</p>
+      <h2 id="intro-title">Speech intelligence, then adaptive conversation.</h2>
+      <p>AssemblyAI supplies real-time speech and turn events. Sunny uses those events to apply a bounded conversation policy—without inferring identity, personality, emotion, or psychological traits.</p>
     </section>
 
     <section class="film section" id="film" aria-labelledby="film-title">
@@ -67,13 +68,13 @@
     <section class="how section" id="how" aria-labelledby="how-title">
       <div class="section-heading reveal">
         <div><p class="kicker">How Sunny works</p><h2 id="how-title">Speech becomes presence.</h2></div>
-        <p>AssemblyAI’s real-time speech events give Sunny a reliable signal for listening, turn-taking, and interruption control.</p>
+        <p>AssemblyAI produces speech and turn signals. Sunny decides when to keep listening, yield playback, and pace the next response.</p>
       </div>
       <ol class="flow-cards">
         <li class="reveal"><span>01</span><strong>Your voice</strong><p>Natural speech enters the live audio stream.</p></li>
-        <li class="reveal"><span>02</span><strong>AssemblyAI</strong><p>Real-time speech activity and turn events arrive as the conversation unfolds.</p></li>
-        <li class="reveal"><span>03</span><strong>Sunny</strong><p>Persona, preferences, and a deterministic fast path shape the response.</p></li>
-        <li class="reveal"><span>04</span><strong>Natural response</strong><p>Playback follows the user’s conversational rhythm.</p></li>
+        <li class="reveal"><span>02</span><strong>AssemblyAI</strong><p>Real-time SpeechStarted and turn events arrive as the conversation unfolds.</p></li>
+        <li class="reveal"><span>03</span><strong>Sunny Adaptive Layer</strong><p>Bounded preferences and a deterministic fast path select the turn action.</p></li>
+        <li class="reveal"><span>04</span><strong>Playback</strong><p>The response follows the selected pause, pacing, and interruption policy.</p></li>
       </ol>
     </section>
 
@@ -86,9 +87,9 @@
       <div class="rhythm-copy reveal">
         <p class="kicker">Personalized rhythm</p>
         <h2 id="rhythm-title">The space between words matters.</h2>
-        <p>Sunny carries conversational preferences into each turn: how long to wait, how quickly to answer, and when silence means “thinking” instead of “finished.”</p>
+        <p>Sunny carries bounded conversational preferences into each turn: pause tolerance, response pacing, interruption behavior, and when to yield the floor.</p>
         <div class="feature-list">
-          <span>Conversational preferences</span><span>Pause awareness</span><span>Turn-taking</span><span>Persona distillation</span>
+          <span>Pause tolerance</span><span>Response pacing</span><span>Interruption preference</span><span>Turn-taking</span>
         </div>
       </div>
     </section>
@@ -102,7 +103,7 @@
         <div class="barge-topline"><span>Visualized verified flow</span><button id="replay-flow" type="button">Replay flow ↻</button></div>
         <div class="barge-grid">
           <article class="flow-step active"><b>01</b><div><h3>SpeechStarted</h3><p>AssemblyAI detects the new human speech event.</p></div></article>
-          <article class="flow-step"><b>02</b><div><h3>Playback stop / duck</h3><p>Sunny immediately yields the audio channel.</p></div></article>
+          <article class="flow-step"><b>02</b><div><h3>Playback stop / duck</h3><p>Sunny’s policy yields the audio channel. No latency value is claimed.</p></div></article>
           <article class="flow-step"><b>03</b><div><h3>New turn</h3><p>The interrupted speech becomes the priority turn.</p></div></article>
           <article class="flow-step"><b>04</b><div><h3>Sunny response</h3><p>The conversation continues from the new intent.</p></div></article>
         </div>
@@ -112,28 +113,34 @@
 
     <section class="architecture section" id="architecture" aria-labelledby="architecture-title">
       <div class="section-heading reveal">
-        <div><p class="kicker">Architecture</p><h2 id="architecture-title">Real-time at the edge of conversation.</h2></div>
-        <p>A compact orchestration layer connects speech events, fast decisions, personalization, and playback.</p>
+        <div><p class="kicker">Architecture</p><h2 id="architecture-title">Clear roles. One conversation flow.</h2></div>
+        <p>AssemblyAI supplies real-time speech intelligence. Sunny adds bounded preferences, fast-path decisions, and playback control.</p>
       </div>
       <div class="architecture-card reveal">
-        <img src="assets/architecture.svg" alt="Architecture diagram: human voice flows through AssemblyAI real-time speech to Sunny orchestration, then through fast-path and personalization to response playback">
+        <img src="assets/architecture.svg" alt="Architecture diagram: human voice flows through AssemblyAI real-time speech to the Sunny Adaptive Layer, then through a deterministic fast path and bounded preferences to playback">
       </div>
     </section>
 
-    <section class="evidence section reveal" aria-labelledby="evidence-title">
+    <section class="evidence section reveal" id="evidence" aria-labelledby="evidence-title">
       <p class="kicker">Verified with a human in the loop</p>
       <h2 id="evidence-title">Two flows. Both completed.</h2>
       <div class="evidence-grid">
         <article><span class="check">✓</span><div><h3>Human E2E verified</h3><p>Physical human microphone → AssemblyAI v3 speech events → Sunny → speaker</p></div></article>
         <article><span class="check">✓</span><div><h3>True human barge-in verified</h3><p>Playback active → SpeechStarted → stop / duck → new turn → response</p></div></article>
       </div>
-      <p class="evidence-note">These statements reflect completed project validation. Private evidence, raw audio, and transcripts are intentionally excluded from this public demo.</p>
+      <div class="evidence-matrix" aria-label="Public evidence status">
+        <div><strong>Verified functional</strong><span>Human microphone E2E · True human barge-in</span></div>
+        <div><strong>Verified synthetic</strong><span>Public event-ordering and policy-contract fixtures</span></div>
+        <div><strong>Not yet benchmarked</strong><span>Stop latency · Baseline comparison · Pause-performance metrics</span></div>
+      </div>
+      <p class="evidence-note">These statements reflect completed project validation. Private evidence, raw audio, and transcripts are intentionally excluded. No benchmark or latency number is claimed.</p>
+      <p class="evidence-links"><a href="https://github.com/rickytzai/sunny-mi087/tree/main/evidence">Redacted evidence ↗</a><a href="https://github.com/rickytzai/sunny-mi087/blob/main/docs/evidence-status.md">Claim-by-claim status ↗</a><a href="https://github.com/rickytzai/sunny-mi087/tree/main/tests">Public contract tests ↗</a></p>
     </section>
 
     <section class="closing section reveal" aria-label="Sunny closing statement">
       <div class="closing-orb" aria-hidden="true"><span></span></div>
-      <p>Sunny responds not just to what you say —</p>
-      <h2>but how you say it.</h2>
+      <p>AssemblyAI understands when you speak.</p>
+      <h2>Sunny learns how you prefer to converse.</h2>
       <span class="built-with">Built with AssemblyAI</span>
     </section>
   </main>

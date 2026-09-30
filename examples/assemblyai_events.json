@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.0",
+  "fixture_type": "synthetic_documentation_example",
+  "recorded_telemetry": false,
+  "contains_audio": false,
+  "contains_transcript": false,
+  "description": "Illustrative provider and Sunny control-event ordering for barge-in. Sequence numbers express order, not elapsed time.",
+  "events": [
+    {
+      "sequence": 1,
+      "source": "sunny",
+      "event": "PlaybackActive"
+    },
+    {
+      "sequence": 2,
+      "source": "assemblyai",
+      "event": "SpeechStarted"
+    },
+    {
+      "sequence": 3,
+      "source": "sunny",
+      "event": "PlaybackStopOrDuck",
+      "reason": "new_human_speech"
+    },
+    {
+      "sequence": 4,
+      "source": "assemblyai",
+      "event": "Turn"
+    },
+    {
+      "sequence": 5,
+      "source": "sunny",
+      "event": "ResponseToNewTurn"
+    }
+  ],
+  "invariants": [
+    "SpeechStarted is sourced from AssemblyAI.",
+    "PlaybackStopOrDuck is a Sunny policy action.",
+    "PlaybackStopOrDuck follows SpeechStarted.",
+    "ResponseToNewTurn follows the new Turn.",
+    "No latency value is implied by sequence order."
+  ]
+}

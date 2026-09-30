@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.0",
+  "fixture_type": "synthetic_public_policy_contract",
+  "recorded_telemetry": false,
+  "preference_vocabulary": {
+    "pause_tolerance": [
+      "brief",
+      "standard",
+      "extended"
+    ],
+    "interruption_behavior": [
+      "stop_on_speech",
+      "duck_on_speech"
+    ],
+    "response_pacing": [
+      "compact",
+      "balanced",
+      "deliberate"
+    ],
+    "turn_taking": [
+      "responsive",
+      "balanced",
+      "patient"
+    ]
+  },
+  "cases": [
+    {
+      "id": "thinking_pause",
+      "input": {
+        "conversation_signal": "possible_pause",
+        "signal_source": "sunny_policy_input",
+        "playback_state": "idle",
+        "pause_tolerance": "extended"
+      },
+      "expected_policy_action": "keep_listening",
+      "route": "deterministic_fast_path"
+    },
+    {
+      "id": "human_barge_in",
+      "input": {
+        "provider_event": "SpeechStarted",
+        "playback_state": "active",
+        "interruption_behavior": "stop_on_speech"
+      },
+      "expected_policy_action": "stop_playback_before_new_response",
+      "route": "deterministic_fast_path"
+    }
+  ],
+  "claim_boundary": "These symbolic cases document the public policy contract. They are not production traces, measured outcomes, or a benchmark."
+}

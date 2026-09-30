@@ -1,94 +1,127 @@
-# Sunny — Adaptive Real-Time Voice Companion
+# Sunny — Adaptive Conversation Layer for Voice Agents
 
-Sunny is an adaptive voice companion that learns the conversational preferences around a person’s speech: pacing, pauses, turn-taking, and the moment they want to interrupt. It was created as **MI-087** for the **AssemblyAI Voice Agent Hackathon**.
+**AssemblyAI understands when you speak. Sunny learns how you prefer to converse.**
 
-[View the live demo](https://rickytzai.github.io/sunny-mi087/) · [Watch the submission film](https://rickytzai.github.io/sunny-mi087/assets/sunny-demo.mp4)
+Sunny is an adaptive voice companion created as **MI-087** for the **AssemblyAI Voice Agent Hackathon**. AssemblyAI supplies real-time speech and turn events. Sunny applies a bounded conversation policy for pause tolerance, interruption behavior, response pacing, and turn-taking.
+
+[View the live demo](https://rickytzai.github.io/sunny-mi087/) · [Watch the final submission film](https://rickytzai.github.io/sunny-mi087/assets/sunny-demo-v4.mp4)
 
 ![Sunny in a warm apartment at sunset](assets/sunny-hero.jpg)
 
-> The public film is a visualized product experience. It is not the literal human evidence recording and contains no raw human audio or transcript.
+> The film is a scripted product visualization with synthesized dialogue. It is not the human evidence recording and contains no raw human audio or transcript.
 
-## The problem
+## The 20-second technical read
 
-Voice assistants often optimize for answering quickly while missing the rhythm of a real conversation. They may speak through a pause, make interruptions feel awkward, or respond with the same timing for every person.
+| AssemblyAI provides | Sunny Adaptive Layer provides |
+| --- | --- |
+| `SpeechStarted` | User-specific pause preference |
+| Turn events | Response timing preference |
+| Real-time speech/timing signals | Interruption and turn-taking preference |
+| The signal that new human speech has begun | Playback-yield policy and deterministic fast-path routing |
 
-## The solution
+AssemblyAI detects speech activity and turn boundaries. Sunny uses those events to decide when to keep listening, when to yield playback, and how to pace the next response. Sunny does **not** infer identity, personality, emotion, mental state, or psychological traits.
 
-Sunny treats conversational rhythm as part of the experience. It combines real-time speech events with a lightweight preference layer so it can listen, respond, and yield the floor more naturally. A deterministic fast path handles small timing decisions while the companion keeps its persona and conversational behavior coherent.
+## Problem
 
-## AssemblyAI’s role
+Voice assistants often optimize for answering quickly while missing the rhythm of a real conversation. They may speak through a thinking pause, make interruptions awkward, or apply the same timing policy to every person.
 
-AssemblyAI provides the real-time speech signal that drives the interaction. Speech activity and completed turns feed Sunny’s orchestration layer, where interruption control, turn policy, persona context, and response generation work together.
+## Solution
 
-```mermaid
+Sunny carries a small, bounded set of conversational preferences across turns:
+
+- pause tolerance;
+- interruption behavior;
+- response pacing;
+- conversational turn-taking preference.
+
+A deterministic fast path handles small, time-sensitive decisions. The public repository documents the policy boundary without exposing production credentials, private configuration, human recordings, or transcripts.
+
+## Architecture
+
+~~~mermaid
 flowchart LR
     A[Human voice] --> B[AssemblyAI real-time speech]
     B --> C[SpeechStarted + turn events]
-    C --> D[Sunny orchestrator]
-    D --> E[Jev deterministic fast path]
-    D --> F[Persona + preferences]
-    E --> G[Response and playback]
+    C --> D[Sunny Adaptive Layer]
+    P[Bounded conversation preferences] --> D
+    D --> E[Deterministic fast path]
+    D --> F[Response path]
+    E --> G[Playback control]
     F --> G
     G --> H[Speaker]
-```
+~~~
 
-## How Sunny works
+The responsibility boundary and event flow are documented in [docs/architecture.md](docs/architecture.md). The preference schema and explicit non-goals are in [docs/adaptation-policy.md](docs/adaptation-policy.md).
 
-1. The microphone provides live speech to AssemblyAI.
-2. Real-time speech events identify activity and conversational turns.
-3. Sunny combines those events with persona and preference context.
-4. A deterministic fast path makes small, time-sensitive decisions.
-5. The response is played with timing shaped by the current conversation.
+## True barge-in
 
-### True barge-in
+When new human speech begins while playback is active, the documented control flow is:
 
-When the user begins speaking during playback, Sunny yields immediately:
+~~~text
+AssemblyAI SpeechStarted
+  → Sunny stop/duck playback
+  → AssemblyAI new turn
+  → Sunny response to the new turn
+~~~
 
-```text
-SpeechStarted → playback stop/duck → new human turn → Sunny response
-```
+The sequence was functionally verified with a human in the loop. No public latency claim is made. See the sanitized [barge-in evidence summary](evidence/barge-in-redacted.json) and [public event example](examples/assemblyai_events.json).
 
-The public demo visualizes this state transition. It does not claim a measured latency.
+## Evidence status
 
-## Verified status
+| Claim | Status | Public evidence | Metric boundary |
+| --- | --- | --- | --- |
+| Physical human microphone → AssemblyAI events → Sunny → speaker | **VERIFIED FUNCTIONAL** | Evidence ID `20260928_184302`; [redacted summary](evidence/human-e2e-redacted.json) | No latency or accuracy metric published |
+| Playback active → `SpeechStarted` → stop/duck → new turn → response | **VERIFIED FUNCTIONAL** | Evidence ID `20260928_184855`; [redacted summary](evidence/barge-in-redacted.json) | No stop-latency metric published |
+| Public event ordering and policy-contract fixtures | **VERIFIED SYNTHETIC** | `python -m unittest discover -s tests -v` | Tests documentation fixtures, not the production backend |
+| Baseline vs. Sunny benchmark | **NOT YET BENCHMARKED** | None | No comparison numbers claimed |
 
-- ✅ **Human E2E verified** — physical human microphone → AssemblyAI v3 speech events → Sunny → speaker
-- ✅ **True human barge-in verified** — playback active → `SpeechStarted` → playback stop/duck → new human turn → new Sunny response
-- ✅ **AssemblyAI real-time speech events used**
+The verification states above come from completed project validation supplied for this submission. This public snapshot does not independently reproduce the private human session. The full claim-by-claim boundary is in [docs/evidence-status.md](docs/evidence-status.md).
 
-These statements reflect completed human validation recorded by the project team. The private evidence itself is intentionally excluded from this public repository.
+## Public technical evidence
 
-## Run the demo locally
+~~~text
+docs/
+  architecture.md          Responsibility boundary and runtime flow
+  adaptation-policy.md     Bounded preferences and explicit non-goals
+  evidence-status.md       Verified, synthetic, and unbenchmarked claims
+evidence/
+  human-e2e-redacted.json  Sanitized functional verification summary
+  barge-in-redacted.json   Sanitized barge-in verification summary
+examples/
+  assemblyai_events.json   Illustrative, non-recorded event sequence
+  turn_policy_cases.json   Public policy-contract examples
+tests/
+  test_public_contract.py  Fixture, ordering, and privacy checks
+~~~
 
-The demo is a dependency-free static site. From the repository root:
+The example events and policy cases are explicitly synthetic documentation fixtures. They contain no captured audio, transcript text, user identifiers, or production telemetry.
 
-```bash
+## Run and verify locally
+
+The demo is a dependency-free static site:
+
+~~~bash
 python -m http.server 8000
-```
+~~~
 
-Then open `http://localhost:8000`.
+Then open `http://localhost:8000`. No API key is needed because the public page does not run the production backend in the browser.
 
-No API key is needed because the public page does not run the production backend in the browser.
+Run the public contract checks with Python 3.9 or later:
 
-## Repository structure
+~~~bash
+python -m unittest discover -s tests -v
+~~~
 
-```text
-.
-├── index.html
-├── styles.css
-├── app.js
-├── assets/
-│   ├── sunny-hero.jpg
-│   ├── sunny-demo.mp4
-│   └── architecture.svg
-├── .nojekyll
-└── .gitignore
-```
+## Proven and next
 
-## Privacy
+**Proven for this submission:** human microphone E2E, true human barge-in, bounded personalized turn policy, and deterministic fast-path routing.
 
-This repository is a sanitized presentation layer. It contains no API keys, credentials, environment files, raw human audio, plaintext human transcripts, private evidence archives, mailbox or shared-state data, or machine-specific paths. The submission film uses original synthesized music and does not contain the private human evidence recording.
+**Future product direction:** package the adaptive conversation layer as an SDK/API for voice-agent teams, with potential pricing by conversation minute. This is a direction, not a currently deployed commercial service.
 
-## Claim boundary
+Potential application areas include customer support, accessibility, coaching, interview/intake, and long-form conversational agents.
 
-The repository makes no benchmark, latency, availability, or browser-backend claim. The landing page is a static product visualization for judging; it does not expose or emulate the production service.
+## Privacy and claim boundary
+
+This repository contains no API keys, credentials, environment files, raw human audio, plaintext human transcripts, private evidence archives, mailbox/shared-state data, or machine-specific paths. See [PRIVACY.md](PRIVACY.md).
+
+Sunny learns bounded conversational preferences—**how you prefer to converse, not who you are**. This repository makes no claim of emotion recognition, identity inference, personality inference, prosody analysis, benchmark superiority, measured latency, production availability, or browser-hosted backend functionality.

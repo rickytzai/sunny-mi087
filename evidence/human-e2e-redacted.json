@@ -1,0 +1,34 @@
+{
+  "schema_version": "1.0",
+  "artifact_type": "sanitized_public_evidence_summary",
+  "claim": "Human microphone end-to-end flow completed",
+  "verification_status": "VERIFIED_FUNCTIONAL",
+  "evidence_id": "20260928_184302",
+  "project_local_timestamp": "2026-09-28 18:43:02",
+  "timezone": "not published",
+  "source_of_status": "project verification record supplied for the submission",
+  "verified_flow": [
+    "physical_human_microphone",
+    "assemblyai_realtime_speech_events",
+    "sunny_conversation_layer",
+    "speaker_playback"
+  ],
+  "assemblyai_role": [
+    "speech_activity_events",
+    "turn_events"
+  ],
+  "sunny_role": [
+    "bounded_turn_policy",
+    "response_orchestration",
+    "playback_control"
+  ],
+  "published_measurements": [],
+  "redactions": [
+    "raw_human_audio",
+    "plaintext_transcript",
+    "credentials",
+    "private_paths",
+    "production_logs"
+  ],
+  "caveat": "This summary records functional completion. It does not publish latency, accuracy, benchmark, or availability metrics and does not independently reproduce the private session."
+}

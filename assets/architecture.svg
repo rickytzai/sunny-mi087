@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 620" role="img" aria-labelledby="title desc">
   <title id="title">Sunny system architecture</title>
-  <desc id="desc">Human voice passes through AssemblyAI real-time speech into Sunny orchestration. Jev fast-path and persona preferences guide response and playback.</desc>
+  <desc id="desc">Human voice passes through AssemblyAI real-time speech into the Sunny Adaptive Layer. A deterministic fast path and bounded conversation preferences guide playback.</desc>
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#152527"/><stop offset="1" stop-color="#0c1718"/></linearGradient>
     <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ffe297"/><stop offset="1" stop-color="#e8952e"/></linearGradient>
@@ -14,10 +14,10 @@
   <path class="line" d="M280 285H365"/>
   <g transform="translate(365 195)"><rect class="node" width="290" height="180" rx="24"/><text x="34" y="59" class="cap">ASSEMBLYAI</text><text x="34" y="101" class="label">Real-time speech</text><text x="34" y="136" class="sub">SpeechStarted · Turn</text></g>
   <path class="line" d="M655 285H745"/>
-  <g transform="translate(745 175)"><rect x="0" y="0" width="300" height="220" rx="28" fill="url(#gold)" opacity=".95"/><circle cx="55" cy="58" r="22" fill="#ffecb7" filter="url(#glow)"/><text x="34" y="116" class="label" style="fill:#20231c;font-size:32px">Sunny</text><text x="34" y="151" class="sub" style="fill:#52432d">Orchestration</text><text x="34" y="181" class="sub" style="fill:#52432d">Turn policy · persona</text></g>
+  <g transform="translate(745 175)"><rect x="0" y="0" width="300" height="220" rx="28" fill="url(#gold)" opacity=".95"/><circle cx="55" cy="58" r="22" fill="#ffecb7" filter="url(#glow)"/><text x="34" y="116" class="label" style="fill:#20231c;font-size:32px">Sunny</text><text x="34" y="151" class="sub" style="fill:#52432d">Adaptive Layer</text><text x="34" y="181" class="sub" style="fill:#52432d">Bounded turn policy</text></g>
   <path class="line" d="M1045 285H1135"/>
   <g transform="translate(1135 215)"><rect class="node" width="195" height="140" rx="24"/><text x="30" y="65" class="label">Response</text><text x="30" y="96" class="sub">Playback</text></g>
-  <g transform="translate(745 465)"><rect class="aux" width="142" height="86" rx="18"/><text x="22" y="38" class="label" style="font-size:19px">Jev fast-path</text><text x="22" y="64" class="sub" style="font-size:14px">Micro-decisions</text></g>
-  <g transform="translate(903 465)"><rect class="aux" width="230" height="86" rx="18"/><text x="22" y="38" class="label" style="font-size:19px">Persona + preferences</text><text x="22" y="64" class="sub" style="font-size:14px">Personalized rhythm</text></g>
+  <g transform="translate(745 465)"><rect class="aux" width="142" height="86" rx="18"/><text x="22" y="38" class="label" style="font-size:19px">Fast path</text><text x="22" y="64" class="sub" style="font-size:14px">Micro-decisions</text></g>
+  <g transform="translate(903 465)"><rect class="aux" width="230" height="86" rx="18"/><text x="22" y="38" class="label" style="font-size:19px">Bounded preferences</text><text x="22" y="64" class="sub" style="font-size:14px">Pauses · pacing · turns</text></g>
   <path d="M816 465V407" class="line"/><path d="M1018 465V407" class="line"/>
 </svg>
